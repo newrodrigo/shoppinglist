@@ -1,0 +1,2 @@
+INSERT INTO tb_item (name, quantity, description, created_at, updated_at, priority, status) VALUES ('Feijão', '2', '2Kg de feijão preto', TIMESTAMP WITH TIME ZONE '2023-08-10T10:00:00Z', TIMESTAMP WITH TIME ZONE '2023-12-10T10:00:00Z', 'LOW', 'PENDING');
+INSERT INTO tb_item (name, quantity, description, created_at, updated_at, priority, status) VALUES ('Pão', '10', '5 Francês e 5 de leite', TIMESTAMP WITH TIME ZONE '2023-08-11T10:00:00Z', TIMESTAMP WITH TIME ZONE '2023-08-11T10:00:00Z', 'HIGH', 'PURCHASED');
