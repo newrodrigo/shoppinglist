@@ -8,18 +8,17 @@ import com.myproject.shoppinglist.entities.enums.ItemStatus;
 
 public class ItemDTO {
 
-private Long id;
-	
+	private Long id;
 	private String name;
 	private String quantity;
 	private String description;
 	private Instant createdAt;
 	private Instant updatedAt;
-    private ItemPriority priority;
-    private ItemStatus status;
-    
-    public ItemDTO() {
-    }
+	private ItemPriority priority;
+	private ItemStatus status;
+
+	public ItemDTO() {
+	}
 
 	public ItemDTO(Long id, String name, String quantity, String description, Instant createdAt, Instant updatedAt,
 			ItemPriority priority, ItemStatus status) {
@@ -32,7 +31,7 @@ private Long id;
 		this.priority = priority;
 		this.status = status;
 	}
-	
+
 	public ItemDTO(Item entity) {
 		id = entity.getId();
 		name = entity.getName();

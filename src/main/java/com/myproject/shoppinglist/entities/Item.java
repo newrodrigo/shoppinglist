@@ -17,33 +17,33 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name ="tb_item")
+@Table(name = "tb_item")
 public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String name;
 	private String quantity;
 	private String description;
-	
+
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant createdAt;
-	
+
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant updatedAt;
-	
+
 	@Enumerated(EnumType.STRING)
-    private ItemPriority priority;
-	
+	private ItemPriority priority;
+
 	@Enumerated(EnumType.STRING)
-    private ItemStatus status;
+	private ItemStatus status;
 
 	public Item() {
 	}
-	
+
 	public Item(Long id, String name, String quantity, String description, Instant createdAt, Instant updatedAt,
 			ItemPriority priority, ItemStatus status) {
 		this.id = id;
