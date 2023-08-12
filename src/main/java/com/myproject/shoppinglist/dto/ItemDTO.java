@@ -2,6 +2,7 @@ package com.myproject.shoppinglist.dto;
 
 import java.time.Instant;
 
+import com.myproject.shoppinglist.entities.Item;
 import com.myproject.shoppinglist.entities.enums.ItemPriority;
 import com.myproject.shoppinglist.entities.enums.ItemStatus;
 
@@ -30,6 +31,17 @@ private Long id;
 		this.updatedAt = updatedAt;
 		this.priority = priority;
 		this.status = status;
+	}
+	
+	public ItemDTO(Item entity) {
+		id = entity.getId();
+		name = entity.getName();
+		quantity = entity.getQuantity();
+		description = entity.getDescription();
+		createdAt = entity.getCreatedAt();
+		updatedAt = entity.getUpdatedAt();
+		priority = entity.getPriority();
+		status = entity.getStatus();
 	}
 
 	public Long getId() {
