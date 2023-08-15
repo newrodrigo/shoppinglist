@@ -1,9 +1,10 @@
 package com.myproject.shoppinglist.controllers;
 
 import java.net.URI;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,10 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.myproject.shoppinglist.dto.ItemDTO;
+import com.myproject.shoppinglist.entities.enums.ItemPriority;
+import com.myproject.shoppinglist.entities.enums.ItemStatus;
 import com.myproject.shoppinglist.services.ItemService;
 
 import jakarta.validation.Valid;
@@ -28,9 +32,12 @@ public class ItemController {
 	private ItemService itemService;
 
 	@GetMapping
-	public List<ItemDTO> findAll() {
-		List<ItemDTO> result = itemService.findAll();
-		return result;
+	public ResponseEntity<Page<ItemDTO>> findAll(@RequestParam(value = "name", defaultValue = "") String name,
+			@RequestParam(value = "priority", defaultValue = "") ItemPriority priority,
+			@RequestParam(value = "status", defaultValue = "") ItemStatus status, Pageable pageable) {
+
+		Page<ItemDTO> list = itemService.findAllPaged(name, priority, status, pageable);
+		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(value = "/{id}")

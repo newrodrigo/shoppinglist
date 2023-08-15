@@ -1,17 +1,20 @@
 package com.myproject.shoppinglist.services;
 
 import java.time.Instant;
-import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.myproject.shoppinglist.dto.ItemDTO;
 import com.myproject.shoppinglist.entities.Item;
+import com.myproject.shoppinglist.entities.enums.ItemPriority;
+import com.myproject.shoppinglist.entities.enums.ItemStatus;
 import com.myproject.shoppinglist.repositories.ItemRepository;
 import com.myproject.shoppinglist.services.exceptions.DatabaseException;
 import com.myproject.shoppinglist.services.exceptions.ResourceNotFoundException;
@@ -23,11 +26,12 @@ public class ItemService {
 	private ItemRepository itemRepository;
 
 	@Transactional(readOnly = true)
-	public List<ItemDTO> findAll() {
-		List<Item> result = itemRepository.findAll();
-		return result.stream().map(ItemDTO::new).toList();
+	public Page<ItemDTO> findAllPaged(String name, ItemPriority priority, ItemStatus status, Pageable pageable) {
+		Page<Item> result = itemRepository.findAllWithFilters(name, priority, status, pageable);
+		return result.map(ItemDTO::new);
 	}
 
+	@Transactional(readOnly = true)
 	public ItemDTO findById(Long id) {
 		Item entity = itemRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		return new ItemDTO(entity);
