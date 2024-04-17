@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.myproject.shoppinglist.dto.ItemConfirmationDTO;
 import com.myproject.shoppinglist.dto.ItemDTO;
 import com.myproject.shoppinglist.entities.enums.ItemPriority;
 import com.myproject.shoppinglist.entities.enums.ItemStatus;
@@ -57,6 +58,13 @@ public class ItemController {
 	public ResponseEntity<ItemDTO> update(@Valid @PathVariable Long id, @RequestBody ItemDTO dto) {
 		dto = itemService.update(id, dto);
 		return ResponseEntity.ok().body(dto);
+	}
+
+	@PutMapping(value = "/confirmation/{id}")
+	public ResponseEntity<ItemConfirmationDTO> confirmationItem(@Valid @PathVariable Long id,
+			ItemConfirmationDTO confirmationDto) {
+		confirmationDto = itemService.confirmationItem(id, confirmationDto);
+		return ResponseEntity.ok().body(confirmationDto);
 	}
 
 	@DeleteMapping(value = "/{id}")

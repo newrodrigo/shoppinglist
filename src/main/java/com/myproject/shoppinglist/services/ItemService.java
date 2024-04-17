@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.myproject.shoppinglist.dto.ItemConfirmationDTO;
 import com.myproject.shoppinglist.dto.ItemDTO;
 import com.myproject.shoppinglist.entities.Item;
 import com.myproject.shoppinglist.entities.enums.ItemPriority;
@@ -59,6 +60,19 @@ public class ItemService {
 		return new ItemDTO(entity);
 	}
 
+	@Transactional
+	public ItemConfirmationDTO confirmationItem(Long id, ItemConfirmationDTO confirmationItem) {
+		Item entity = itemRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Id not found " + id));
+
+		entity.setUpdatedAt(Instant.now());
+		confirmationItem.setStatus(ItemStatus.PURCHASED);
+		copyDtoToEntityConfirmDto(confirmationItem, entity);
+
+		entity = itemRepository.save(entity);
+		return new ItemConfirmationDTO(entity);
+	}
+
 	public void delete(Long id) {
 		try {
 			itemRepository.deleteById(id);
@@ -71,5 +85,9 @@ public class ItemService {
 
 	private void copyDtoToEntity(ItemDTO dto, Item entity) {
 		BeanUtils.copyProperties(dto, entity, "id", "createdAt", "updatedAt");
+	}
+
+	private void copyDtoToEntityConfirmDto(ItemConfirmationDTO confirmationItem, Item entity) {
+		BeanUtils.copyProperties(confirmationItem, entity, "id", "updatedAt");
 	}
 }
